@@ -1,0 +1,90 @@
+{
+  "create": {
+    "title": "Gerra Mundial Z",
+    "overview": "Joel recebe a missão de escoltar Ellie através de um mundo devastado por uma infecção fúngica.",
+    "company": "Netflix",
+    "release_year": 2013
+  
+  },
+
+  "train_to_busan": {
+    "title": "Invasão Zumbi",
+    "overview": "Passageiros de um trem precisam sobreviver a um ataque zumbi que se espalha rapidamente pela Coreia do Sul.",
+    "company": "Next Entertainment World",
+    "release_year": 2016,
+    "featured": true,
+    "cover": "/caminho/para/train_to_busan.png"
+  },
+
+  "exterminio": {
+    "title": "Extermínio",
+    "overview": "Um vírus altamente contagioso transforma pessoas em criaturas violentas e espalha o caos pelo Reino Unido.",
+    "company": "Fox Searchlight Pictures",
+    "release_year": 2002,
+    "featured": false,
+    "cover": "/caminho/para/exterminio.png"
+  },
+
+  "resident_evil_apocalipse": {
+    "title": "Resident Evil: Apocalipse",
+    "overview": "Alice luta para escapar de Raccoon City enquanto enfrenta criaturas criadas pela Umbrella.",
+    "company": "Screen Gems",
+    "release_year": 2004,
+    "featured": false,
+    "cover": "/caminho/para/resident_evil_apocalipse.png"
+  },
+
+  "eu_sou_a_lenda": {
+    "title": "Eu Sou a Lenda",
+    "overview": "O último sobrevivente de Nova York tenta encontrar uma cura para um vírus que destruiu a humanidade.",
+    "company": "Warner Bros",
+    "release_year": 2007,
+    "featured": true,
+    "cover": "/caminho/para/eu_sou_a_lenda.png"
+  },
+
+  "madrugada_dos_mortos": {
+    "title": "Madrugada dos Mortos",
+    "overview": "Sobreviventes se refugiam em um shopping enquanto hordas de zumbis dominam a cidade.",
+    "company": "Universal Pictures",
+    "release_year": 2004,
+    "featured": false,
+    "cover": "/caminho/para/madrugada_dos_mortos.png"
+  },
+
+  "alive": {
+    "title": "#Alive",
+    "overview": "Um jovem isolado em seu apartamento tenta sobreviver durante um surto zumbi em Seul.",
+    "company": "Lotte Entertainment",
+    "release_year": 2020,
+    "featured": true,
+    "cover": "/caminho/para/alive.png"
+  },
+
+  "zumbilandia": {
+    "title": "Zumbilândia",
+    "overview": "Um grupo improvável atravessa os Estados Unidos tentando sobreviver ao apocalipse zumbi.",
+    "company": "Columbia Pictures",
+    "release_year": 2009,
+    "featured": false,
+    "cover": "/caminho/para/zumbilandia.png"
+  },
+
+  "army_of_the_dead": {
+    "title": "Army of the Dead",
+    "overview": "Mercenários entram em Las Vegas infestada de zumbis para executar um grande assalto.",
+    "company": "Netflix",
+    "release_year": 2021,
+    "featured": true,
+    "cover": "/caminho/para/army_of_the_dead.png"
+  },
+
+  "rec": {
+    "title": "[REC]",
+    "overview": "Uma repórter e seu cinegrafista ficam presos em um prédio tomado por uma infecção mortal.",
+    "company": "Filmax",
+    "release_year": 2007,
+    "featured": false,
+    "cover": "/caminho/para/rec.png"
+  }
+}
