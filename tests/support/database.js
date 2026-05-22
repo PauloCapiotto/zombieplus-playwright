@@ -8,27 +8,14 @@ const DbConfig = {
     port: 5432,
 };
 
-export async function executeSQL(sqlScript) {
+const pool = new Pool(DbConfig);
 
-  const pool = new Pool(DbConfig);
-  const client = await pool.connect();
-
+export async function executeSQL(sqlScript, params = []) {
   try {
-
-    const result = await client.query(sqlScript);
-
-    console.log(result.rows);
-
+    const result = await pool.query(sqlScript, params);
     return result.rows;
-
   } catch (error) {
-
     console.error('Erro ao executar SQL:', error.message);
-
-  } finally {
-
-    client.release();
-
+    throw error;
   }
 }
-

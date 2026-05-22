@@ -2,8 +2,6 @@ import { expect, test } from '../support';
 import { faker } from '@faker-js/faker';
 
 
-
-
 test('deve cadastrar um filme na fila de espera com sucesso', async ({ page }) => {
   const leadName = faker.person.fullName();
   const leadEmail = faker.internet.email();
@@ -22,7 +20,7 @@ test('não deve cadastrar email já registrado', async ({ page, request }) => {
   const newLead = await request.post('http://localhost:3333/leads', {
     data: {
       name: leadName,
-      email:leadEmail
+      email: leadEmail
     }
   })
 
