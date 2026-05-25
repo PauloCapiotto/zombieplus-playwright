@@ -4,13 +4,13 @@ import { expect, test } from '../support';
 test('realiza login como administrador com sucesso', async ({ page }) => {
     await page.login.visit();
     await page.login.submitLogin('admin@zombieplus.com', 'pwd123');
-    await page.movies.isloggedIn();
+    await page.login.isloggedIn('Admin');
 });
 
 test('não deve logar com senha incorreta', async ({ page }) => {
     await page.login.visit();
     await page.login.submitLogin('admin@zombieplus.com', 'teste123');
-    await page.toast.containText('Ocorreu um erro ao tentar efetuar o login. Por favor, verifique suas credenciais e tente novamente.');
+    await page.popup.haveText('Ocorreu um erro ao tentar efetuar o login. Por favor, verifique suas credenciais e tente novamente.');
 });
 
 test('não deve logar com o email incorreto', async ({ page }) => {

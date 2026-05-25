@@ -4,13 +4,28 @@ Projeto de automação de testes end-to-end desenvolvido com Playwright para val
 
 ## Cobertura de testes
 
+**Login**
 - Login administrativo com sucesso
-- Validações de login com credenciais inválidas
-- Validações de campos obrigatórios no login
-- Cadastro de leads na fila de espera
-- Validação de e-mail já cadastrado na fila de espera
-- Cadastro de filme no painel administrativo
-- Validação de mensagens toast e alertas de formulário
+- Tentativa com senha incorreta
+- Tentativa com e-mail inválido
+- Validação de campo e-mail vazio
+- Validação de campo senha vazio
+- Validação de ambos os campos vazios
+
+**Fila de espera (Leads)**
+- Cadastro de lead com sucesso
+- Rejeição de e-mail já registrado (via API)
+- Validação de e-mail com formato incorreto
+- Validação de campo e-mail vazio
+- Validação de campo nome vazio
+- Validação de ambos os campos vazios
+
+**Filmes**
+- Cadastro de filme com sucesso
+- Remoção de filme do catálogo
+- Rejeição de título duplicado
+- Validação de campos obrigatórios
+- Busca por termo no catálogo
 
 ## Tecnologias
 
@@ -23,7 +38,7 @@ Projeto de automação de testes end-to-end desenvolvido com Playwright para val
 
 ## Estrutura do projeto
 
-```bash
+```
 .
 ├── playwright.config.js
 ├── package.json
@@ -32,16 +47,20 @@ Projeto de automação de testes end-to-end desenvolvido com Playwright para val
 │   │   ├── leads.spec.js
 │   │   ├── login.spec.js
 │   │   └── movies.spec.js
-│   ├── pages/
-│   │   ├── Components.js
-│   │   ├── LandingPage.js
-│   │   ├── LoginPage.js
-│   │   └── MoviesPage.js
 │   └── support/
+│       ├── actions/
+│       │   ├── Components.js
+│       │   ├── Leads.js
+│       │   ├── Login.js
+│       │   └── Movies.js
+│       ├── api/
+│       │   └── index.js
+│       ├── fixtures/
+│       │   ├── covers/
+│       │   │   └── movies/      ← imagens usadas no upload de capas
+│       │   └── movies.json
 │       ├── database.js
-│       ├── index.js
-│       └── fixtures/
-│           └── movies.json
+│       └── index.js
 ```
 
 ## Pré-requisitos
@@ -54,17 +73,27 @@ Antes de executar os testes, mantenha os serviços da aplicação disponíveis:
 - Banco configurado com usuário `postgres`, senha `pwd123` e porta `5432`
 - Usuário admin da aplicação: `admin@zombieplus.com` / `pwd123`
 
-## Instalação
+A variável de ambiente `DB_HOST` pode ser usada para apontar o host do banco em ambientes distintos (padrão: `localhost`).
 
-Instale as dependências do projeto:
+### Subindo o banco com Docker
+
+O projeto inclui um `docker-compose.yml` que sobe o PostgreSQL e o pgAdmin:
+
+```bash
+docker compose up -d
+```
+
+Serviços disponíveis após o comando:
+
+| Serviço | URL / Host | Credenciais |
+|---|---|---|
+| PostgreSQL | `localhost:5432` | usuário `postgres` / senha `pwd123` |
+| pgAdmin | `http://localhost:16543` | `admin@qax.com` / `pwd123` |
+
+## Instalação
 
 ```bash
 npm install
-```
-
-Instale os navegadores usados pelo Playwright:
-
-```bash
 npx playwright install
 ```
 
@@ -76,13 +105,13 @@ Executar todos os testes:
 npx playwright test
 ```
 
-Executar testes em modo headed:
+Executar em modo headed:
 
 ```bash
 npx playwright test --headed
 ```
 
-Abrir o relatório HTML do Playwright:
+Abrir o relatório HTML:
 
 ```bash
 npx playwright show-report
@@ -90,24 +119,42 @@ npx playwright show-report
 
 ## Arquitetura
 
-Os testes ficam em `tests/e2e` e são organizados por fluxo funcional: login, leads e filmes.
+Os testes ficam em `tests/e2e`, organizados por fluxo funcional: login, leads e filmes.
 
-As telas e ações reutilizáveis ficam em `tests/pages`, seguindo o padrão Page Object Model. A fixture customizada em `tests/support/index.js` estende o objeto `page` do Playwright com os atalhos `landing`, `login`, `movies` e `toast`.
+As ações reutilizáveis ficam em `tests/support/actions`, seguindo o padrão Action Objects (derivado do Page Object Model). Cada classe encapsula as interações de um contexto específico:
 
-O arquivo `tests/support/database.js` centraliza a execução de comandos SQL no PostgreSQL para preparar dados antes dos testes. As massas de filmes usadas nos cenários ficam em `tests/support/fixtures/movies.json`.
+| Classe | Arquivo | Responsabilidade |
+|---|---|---|
+| `LoginPage` | `Login.js` | Navegação e submissão do formulário de login |
+| `Leads` | `Leads.js` | Abertura do modal e cadastro na fila de espera |
+| `MoviesPage` | `Movies.js` | Cadastro, remoção, busca e validações de filmes |
+| `Popup` | `Components.js` | Verificação de mensagens SweetAlert2 |
 
-O projeto está configurado para executar no Chromium e gerar relatório HTML com o reporter padrão do Playwright.
+A fixture customizada em `tests/support/index.js` estende os objetos `page` e `request` do Playwright:
+
+- `page.login` → instância de `LoginPage`
+- `page.Leads` → instância de `Leads`
+- `page.movies` → instância de `MoviesPage`
+- `page.popup` → instância de `Popup`
+- `request.api` → instância de `Api` (autenticada automaticamente)
+
+A classe `Api` em `tests/support/api/index.js` centraliza chamadas HTTP autenticadas para criação de dados de teste via API, obtendo token na fixture antes de cada teste.
+
+O arquivo `tests/support/database.js` centraliza a execução de comandos SQL no PostgreSQL para limpeza de dados antes dos testes.
+
+As massas de dados ficam em `tests/support/fixtures/movies.json` (cenários de criação, remoção, duplicação e busca) e as imagens de capa em `tests/support/fixtures/covers/movies/`.
 
 ## Boas práticas e técnicas usadas
 
-- Page Object Model para separar regras de interação com a interface dos cenários de teste
-- Fixtures customizadas para centralizar a criação e o acesso aos objetos de página
+- Action Objects para separar regras de interação da interface dos cenários de teste
+- Fixtures customizadas que estendem `page` e `request` com objetos de ação e API
+- Camada de API (`Api`) para criar dados de teste programaticamente, sem depender da UI
+- Preparação de dados via SQL para garantir estado limpo antes de cada cenário
 - Massa de dados externa em JSON para facilitar manutenção dos cenários de filmes
-- Dados dinâmicos com Faker para reduzir conflito entre execuções de testes de leads
-- Preparação de massa via banco de dados antes do cadastro de filme
-- Validações por seletores semânticos, como `getByRole`, `getByLabel`, `getByPlaceholder` e `getByTestId`
-- Validação de feedback visual por mensagens toast e alertas de formulário
-- Reuso de componentes comuns, como o componente `Toast`
+- Dados dinâmicos com Faker para evitar conflito entre execuções de testes de leads
+- Seletores semânticos: `getByRole`, `getByLabel`, `getByPlaceholder`, `getByTestId`
+- Validação de feedback visual por popups SweetAlert2 e alertas de formulário
 - Testes independentes por fluxo funcional
 - Relatório HTML do Playwright para análise das execuções
-- Trace em primeira retentativa para apoiar investigação de falhas em ambiente de CI
+- Trace em primeira retentativa para apoiar investigação de falhas em CI
+- Suporte à variável `DB_HOST` para execução em diferentes ambientes

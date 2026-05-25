@@ -1,9 +1,10 @@
 import { test as base, expect } from '@playwright/test'
 
-import { LandingPage } from '../pages/LandingPage'
-import { LoginPage } from '../pages/LoginPage'
-import { MoviesPage } from '../pages/MoviesPage'
-import { Toast } from '../pages/Components'
+import { Leads } from './actions/Leads'
+import { LoginPage } from './actions/Login'
+import { MoviesPage } from './actions/Movies'
+import { Popup } from './actions/Components'
+import { Api } from './API/index.js';
 
 export const test = base.extend({
 
@@ -11,10 +12,20 @@ export const test = base.extend({
 
     const context = page
 
-    context['landing'] = new LandingPage(page)
+    context['Leads'] = new Leads(page)
     context['login'] = new LoginPage(page)
     context['movies'] = new MoviesPage(page)
-    context['toast'] = new Toast(page)
+    context['popup'] = new Popup(page)
+
+    await use(context)
+
+  },
+
+  request: async ({ request }, use) => {
+
+    const context = request
+    context['api'] = new Api(request)
+    await context['api'].setToken()
 
     await use(context)
 
