@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {"pw:skills": "playwright-cli install --skills"},
+  "scripts": {
+    "pw:skills": "playwright-cli install --skills"
+  },
   "keywords": [],
   "author": "Paulo Capiotto",
   "license": "ISC",

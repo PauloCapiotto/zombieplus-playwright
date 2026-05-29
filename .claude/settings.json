@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__playwright-test__planner_save_plan",
+      "mcp__playwright-test__generator_setup_page",
+      "mcp__playwright-test__browser_evaluate",
+      "mcp__playwright-test__browser_verify_element_visible"
+    ]
+  }
+}

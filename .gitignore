@@ -9,3 +9,17 @@ node_modules/
 *.html
 .playwright-mcp/
 .DS_Store
+/playwright/.auth/
+/playwright/.cache/
+/playwright/.report/
+/playwright/.trace/
+/playwright/.screenshots/
+/playwright/.videos/
+/playwright/.artifacts/   
+auth.json
+tests/support/fixtures/auth.json
+.playwright-cli/*.log
+.playwright-cli/page-*.yml
+.playwright-cli/page-*.png
+
+poster-upload-state.png
