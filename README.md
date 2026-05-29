@@ -1,6 +1,6 @@
 # Zombie Plus — Testes E2E com Playwright
 
-Projeto de automação de testes para práticar end-to-end desenvolvido com Playwright, Agentes, CLI, MCP
+Projeto de automação de testes para praticar desenvolvido com Playwright
 
 ---
 
